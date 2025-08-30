@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Kontakt - Václav Janeček</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .success-message {
+      display: none;
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      padding: 15px;
+      border-radius: 8px;
+      max-width: 500px;
+      margin: 20px auto;
+      text-align: center;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .success-message.show {
+      display: block;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Domů</a></li>
+      <li><a href="o-mne.html">O mně</a></li>
+      <li><a href="sluzby.html">Služby</a></li>
+      <li><a href="reference.html">Reference</a></li>
+      <li><a href="kontakt.html" class="active">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <h1>Kontakt</h1>
+  <p>Pokud máte zájem o doučování či tvorbu webu, napište mi zprávu a já se ozvu co nejdříve.</p>
+
+  <div class="success-message" id="successMessage">
+    ✅ Zpráva byla odeslána. Děkuji!
+  </div>
+
+  <form id="contactForm" action="https://formspree.io/f/mjkeweap" method="POST">
+    <label for="jmeno">Jméno:</label>
+    <input type="text" id="jmeno" name="name" placeholder="Vaše jméno" required>
+
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" name="email" placeholder="Váš e-mail" required>
+
+    <label for="zprava">Zpráva:</label>
+    <textarea id="zprava" name="message" placeholder="Vaše zpráva" rows="5" required></textarea>
+
+    <button type="submit">Odeslat</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const successMessage = document.getElementById('successMessage');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          successMessage.classList.add('show');
+          form.reset();
+
+          // Po 5 sekundách zmizí potvrzení
+          setTimeout(() => {
+            successMessage.classList.remove('show');
+          }, 5000);
+        } else {
+          alert('Nastala chyba při odesílání. Zkuste to prosím později.');
+        }
+      } catch (error) {
+        alert('Chyba: ' + error.message);
+      }
+    });
+  </script>
+
+</body>
+</html>
+
+
+
+
