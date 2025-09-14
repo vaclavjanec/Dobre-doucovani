@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vaclavjanec.github.io/Dobre-doucovani/sitemap.xml
